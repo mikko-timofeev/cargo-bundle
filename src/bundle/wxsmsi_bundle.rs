@@ -12,7 +12,10 @@ const UUID_NAMESPACE: uuid::Uuid = uuid::Uuid::from_bytes([
 pub fn bundle_project(settings: &Settings) -> crate::Result<Vec<PathBuf>> {
     crate::bundle::common::print_warning("MSI bundle support is still experimental.")?;
 
-    let base_dir = settings.project_out_directory().join("bundle").join("wxsmsi");
+    let base_dir = settings
+        .project_out_directory()
+        .join("bundle")
+        .join("wxsmsi");
     std::fs::create_dir_all(&base_dir)?;
 
     // Generate .wixproj file
@@ -734,16 +737,28 @@ fn rtf_safe_content(origin_content: &str) -> String {
 fn sanitize_version_for_wix(version: &str) -> String {
     // Strip pre-release and build metadata (anything after - or +)
     let version = version.split(['-', '+']).next().unwrap_or(version);
-    
+
     // Split into parts and take first 4
     let parts: Vec<&str> = version.split('.').take(4).collect();
-    
+
     // Parse each part as a number, defaulting to 0 if invalid
-    let major = parts.first().and_then(|s| s.parse::<u32>().ok()).unwrap_or(0);
-    let minor = parts.get(1).and_then(|s| s.parse::<u32>().ok()).unwrap_or(0);
-    let build = parts.get(2).and_then(|s| s.parse::<u32>().ok()).unwrap_or(0);
-    let revision = parts.get(3).and_then(|s| s.parse::<u32>().ok()).unwrap_or(0);
-    
+    let major = parts
+        .first()
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(0);
+    let minor = parts
+        .get(1)
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(0);
+    let build = parts
+        .get(2)
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(0);
+    let revision = parts
+        .get(3)
+        .and_then(|s| s.parse::<u32>().ok())
+        .unwrap_or(0);
+
     format!("{}.{}.{}.{}", major, minor, build, revision)
 }
 
