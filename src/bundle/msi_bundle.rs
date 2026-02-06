@@ -1158,6 +1158,7 @@ fn create_app_icon<W: Write>(writer: &mut W, settings: &Settings) -> crate::Resu
             return Ok(());
         }
     }
+    // TODO: convert svg to appropriate format?
     // TODO: Convert from other formats.
     Ok(())
 }
