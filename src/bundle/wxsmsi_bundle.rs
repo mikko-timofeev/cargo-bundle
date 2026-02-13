@@ -845,7 +845,10 @@ fn get_icon_path(settings: &Settings) -> PathBuf {
                 .unwrap_or("icon");
 
             let ico_path = out_dir.join(format!("{file_stem}-generated.ico"));
-            if convert_to_ico(&full_path, &ico_path).is_ok() {
+
+            if extension == "svg" {
+                // TODO: convert svg to appropriate format?
+            } else if convert_to_ico(&full_path, &ico_path).is_ok() {
                 return ico_path;
             }
         }

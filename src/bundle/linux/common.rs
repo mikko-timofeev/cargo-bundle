@@ -191,7 +191,12 @@ pub fn generate_icon_files(settings: &Settings, data_dir: &Path) -> crate::Resul
 
     for icon_path in settings.icon_files() {
         let icon_path = icon_path?;
-        if icon_path.extension() == Some(OsStr::new("png")) {
+        if icon_path.extension() == Some(OsStr::new("svg")) {
+            let scalable_dir = base_dir.join("scalable/apps");
+            std::fs::create_dir_all(&scalable_dir)?;
+            let dest_path = scalable_dir.join(format!("{}.svg", settings.binary_name()));
+            common::copy_file(&icon_path, &dest_path)?;
+        } else if icon_path.extension() == Some(OsStr::new("png")) {
             let new_sizes = generate_icon_files_png(
                 &icon_path,
                 &base_dir,

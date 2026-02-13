@@ -102,6 +102,8 @@ fn generate_icon_files(bundle_dir: &Path, settings: &Settings) -> crate::Result<
                         icon.write_png(File::create(dest_path)?)?;
                     }
                 }
+            } else if icon_path.extension() == Some(OsStr::new("svg")) {
+                // TODO: convert svg to appropriate format?
             } else {
                 let icon = image::open(&icon_path)?;
                 let (width, height) = icon.dimensions();

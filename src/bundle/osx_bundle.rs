@@ -467,6 +467,9 @@ fn create_icns_file(
     let mut images_to_resize: Vec<(image::DynamicImage, u32, u32)> = vec![];
     for icon_path in settings.icon_files() {
         let icon_path = icon_path?;
+        if icon_path.extension() == Some(OsStr::new("svg")) {
+            continue; // TODO: convert svg to appropriate format?
+        }
         let icon = image::open(&icon_path)?;
         let density = if common::is_retina(&icon_path) { 2 } else { 1 };
         let (w, h) = icon.dimensions();
